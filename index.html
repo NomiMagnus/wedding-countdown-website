@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count Down The Days!</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: #f5e1bd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .today {
+            scale: 1.2;
+            -webkit-animation: border-glow 1s ease-in-out infinite alternate;
+            -moz-animation: border-glow 1s ease-in-out infinite alternate;
+            animation: border-glow 1s ease-in-out infinite alternate !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #title-container {
+            background-color: #58576b;
+            width: -webkit-fill-available;
+            color: #f5e1bd;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #title-container h2 {
+            -webkit-animation: glow 1s ease-in-out infinite alternate;
+            -moz-animation: glow 1s ease-in-out infinite alternate;
+            animation: glow 1s ease-in-out infinite alternate;
+            position: fixed;
+            top: 40px;
+            /* margin-right: 110px; */
+            width: -webkit-fill-available;
+            color: #fff;
+            scale: 2;
+            z-index: 1;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .weddingCard {
+            -webkit-animation: grow 1s ease-in-out infinite alternate;
+            -moz-animation: grow 1s ease-in-out infinite alternate;
+            animation: grow 1s ease-in-out infinite alternate;
+        }
+
+        .heart {
+            background-color: #f5e1bd;
+            display: inline-block;
+            height: 30px;
+            margin: 0 10px;
+            position: relative;
+            top: 0;
+            transform: rotate(-45deg);
+            width: 30px;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #f5e1bd;
+            border-radius: 50%;
+            height: 30px;
+            position: absolute;
+            width: 30px;
+
+        }
+
+        .heart:before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 15px;
+            top: 0;
+        }
+
+        @-webkit-keyframes glow {
+            from {
+                text-shadow: 0 0 20px #fff, 0 0 30px #4d94ff, 0 0 40px #594dff, 0 0 50px #504dff, 0 0 60px #684dff, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+            }
+
+            to {
+                text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+            }
+        }
+
+        @-webkit-keyframes border-glow {
+            from {
+                box-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #e60073, 0 0 4px #e60073, 0 0 5px #e60073, 0 0 6px #e60073, 0 0 7px #e60073;
+            }
+
+            to {
+                box-shadow: 0 0 2px #fff, 0 0 3px #4d94ff, 0 0 4px #594dff, 0 0 5px #504dff, 0 0 6px #684dff, 0 0 7px #ff4da6, 0 0 8px #ff4da6;
+            }
+        }
+
+        @keyframes grow {
+            0% {
+                transform: scale(1);
+                transform: rotate(-10deg);
+            }
+
+            100% {
+                transform: scale(1.1);
+            }
+        }
+
+        .card-1 {
+            color: rgb(96, 100, 31);
+        }
+
+        .card-2 {
+            color: rgb(168, 132, 64);
+        }
+
+        .card-3 {
+            color: rgb(138, 81, 48);
+        }
+
+        .card-4 {
+            color: rgb(100, 31, 37);
+        }
+
+        .card-5 {
+            color: rgb(168, 64, 90);
+        }
+
+        .card-6 {
+            color: rgb(153, 55, 128);
+        }
+
+        .card-7 {
+            color: rgb(42, 19, 175);
+        }
+
+        .card-8 {
+            color: rgb(31, 82, 116);
+        }
+
+        .card-9 {
+            color: rgb(48, 138, 85);
+        }
+    </style>
+</head>
+
+<body dir="ltr">
+
+    <div id="title-container">
+        <span class="heart"></span>
+        <div>
+            <h1>Count Down The Days!</h1>
+            <br/>
+            <p>&copy; All rights reserved. For details: nomimagnus@gmail.com</p>
+        </div>
+        <span class="heart"></span>
+    </div>
+    <div id="cards-container"></div>
+
+    <script>
+        const name = 'Bride Name';  // Replace with the actual bride name
+        const startCountDate = new Date('2024-11-08'); // Replace with when you want to begin the counting
+        const weddingDate = new Date('2024-11-20'); // Replace with the actual wedding date
+        const today = new Date();
+        const daysRemaining = Math.ceil((weddingDate - today) / (1000 * 60 * 60 * 24));
+        const totalDays = Math.ceil((weddingDate - startCountDate) / (1000 * 60 * 60 * 24));
+
+        const wishes = [
+            "May your love be modern enough to survive the times and old-fashioned enough to last forever.",
+            "Wishing you a lifetime of love and happiness.",
+            "May your marriage be filled with joy and laughter.",
+            "Here's to love, laughter, and happily ever after.",
+            "Wishing you both a wonderful journey as you build your new lives together.",
+            "May your love grow stronger each and every passing year.",
+            "Congratulations on your wedding day! Wishing you a lifetime of love and happiness.",
+            "May today be the beginning of a long, happy life together.",
+            "Wishing you a beautiful wedding day and a wonderful life together.",
+            "Cheers to a lifetime of love and happiness!"
+        ];
+
+        function createCard(day, wish, colorClass) {
+            document.getElementById('cards-container').innerHTML += `<div class="card ${colorClass}"><h2>${day}</h2><br/><p>${wish}</p></div>`;
+            console.log(document.getElementById('cards-container').innerHTML);
+        }
+
+        function displayCards() {
+            document.getElementById('title-container').innerHTML += `<h2>${name}, Congratulations!</h2>`;
+            document.getElementById('title-container').onclick = function () {
+                location.reload();
+            };
+            for (let i = totalDays; i >= 0; i--) {
+                let day;
+                if (daysRemaining > 0)
+                    day = i > daysRemaining ? "..." : i === 2 ? "in 2 days.." : i === 1 ? "Tomorrow..." : i === 0 ? "when is the wedding?" : `In ${i} days...`;
+
+                else
+                    day = i > daysRemaining ? "..." : 'Today! The wedding!!!';
+
+                let wish;
+                if (i >= daysRemaining)
+                    wish = wishes[i] || 'Congratulations!';
+                else
+                    wish = i === 0 ? wishes[i] || "Congratulations!!!!" : 'wait almost a minute :)';
+
+                let colorClass = i === daysRemaining ? `card-${i % 9 + 1} today` : `card-${i % 9 + 1}`;
+                if (i === 0) {
+                    colorClass += ' weddingCard';
+                }
+                createCard(day, wish, colorClass);
+            }
+        }
+
+        displayCards();
+    </script>
+
+</body>
+
+</html>
